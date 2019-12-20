@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<!-- Compiled and minified JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<style>
+			.header {
+        text-transform: uppercase;
+        margin: 10px 0px;
+        width: 100%;
+        color: teal;
+			}
+			.topright {
+				position: absolute;
+				top: 8px;
+				right: 16px;
+				font-size: 18px;
+			}
+		</style>
+		<title>submit</title>		
+	</head>
+	<body>
+		<!-- Page Content goes here -->
+		<div class="row container">
+			<div class="fixed-action-btn topright">
+				<a class="btn-floating btn-large teal" href="/">
+					<i class="large material-icons">home</i>
+				</a>
+			</div>
+			<h5 class="header">Processed Data Of {{Filename}} :</h5>
+			<div class="card-panel">
+				<form enctype="multipart/form-data" id="confirmForm" name="confirmForm">
+					{% csrf_token  %}
+					<div id="confirm-wrapper"></div>
+					<div id = "table-wrapper"></div>
+					<input type="hidden" id="data" name="variable" value="{{Data}}">
+					<input type="hidden" id="tables" name="variable" value="{{Tables}}">
+					<div class="row"></div>
+					<div class="row">
+						<div class="col s12 center">
+							<button class="btn waves-effect waves-light" type="submit" onClick="handleConfirm()">Confirm
+								<i class="material-icons right">send</i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script>
+			// Process input data goes here ---->
+			document.body.onload = createInputs();
+
+			function createInputs () {
+				var data = JSON.parse(document.getElementById("data").value);
+				console.log('TEST DATA:', data);
+
+				for (var key of Object.keys(data)) {
+					// console.log(key + " -> " + data[key]);
+					var container = document.getElementById("confirm-wrapper");
+
+					var content = document.createElement("div");
+					content.className = "mat-div";
+
+					var name = document.createElement("div");
+					name.innerHTML = key+':';
+					name.className = "col s6";
+					content.appendChild(name);
+
+					var input = document.createElement("input");
+					input.value = data[key];
+					input.type = "text";
+					input.id = "first-name";
+					input.className = "mat-input col s6";
+
+					content.appendChild(input);
+					container.appendChild(content);
+				}
+			};
+
+			// processed table data goes here ---->
+			document.body.onload = createTables();
+
+			function createTables() {
+				var tables =  (new Function("return [" + document.getElementById('tables').value+ "];")());
+				var html = '';
+				var tables_length = tables.length > 0 ? tables[0].length : 0;
+				var container = document.getElementById("table-wrapper");
+				var wrapper = document.createElement("div");
+				
+				for (var i = 0; i < tables_length; i++)  //Iterating table by table
+				{
+					// keys are the headings of the tables
+					keys = Object.keys(tables[0][i])
+					html += "<table border='1|1' class='highlight'><thead><tr>";
+
+					// Going through the headings of the table
+					for (var key = 0; key < keys.length; key++) {
+							html += "<th>"+keys[key]+"</th>";
+					}
+					html += "</tr></thead><tbody>";
+					row_length = tables[0][i][keys[0]].length;
+					// Going through the values of the table
+					for (var row = 0; row < row_length; row++) {
+						html += '<tr>';
+						for (var key = 0; key < keys.length; key++) {
+							html += "<td>"+tables[0][i][keys[key]][row]+"</td>";
+						}
+						html += "</tr>";
+					}
+					html += "</tbody></table>";
+					html += "<br><br>";
+				}
+
+				wrapper.innerHTML = html;
+				container.appendChild(wrapper);
+			};
+
+			function handleConfirm() {
+				alert('Data submitted successfully!!!');
+			}
+		</script>
+	</body>
+</html>

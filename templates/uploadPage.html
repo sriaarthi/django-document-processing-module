@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Document</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
+    <style>
+      table, td {
+        padding: 5px 5px;
+      }
+      th {
+        padding: 20px 10px;
+        text-transform: capitalize;
+      }
+      .header {
+        text-transform: uppercase;
+        margin: 10px 0px;
+        width: 100%;
+        color: teal;
+      }
+      .row.container {
+        margin-top: 20px;
+      }
+      .material-icons.delete {
+        cursor: pointer;
+      }
+      .file-path.validate {
+        font-size: 11px!important;
+      }
+      #loadingDiv {
+        display : none;
+
+        position:fixed;
+        top:0px;
+        right:0px;
+        width:100%;
+        height:100%;
+        background-image:url('../media/images/loader4.gif');
+        background-repeat:no-repeat;
+        background-position:center;
+        z-index:10000000;
+        filter: alpha(opacity=40);
+      }
+      .topright {
+				position: absolute;
+				top: 8px;
+				right: 16px;
+				font-size: 18px;
+			}
+    </style>
+    <script type="text/javascript">
+      $(function(){
+        $('#uploadForm').submit(function() {
+          $('#loadingDiv').show(); 
+          $('#uploadForm').hide();
+          return true;
+        });
+      });
+
+      $(document).ready(function() {
+        $(".delete").click(function(event) {
+          var index = parseInt($(event.target).parents().eq(1)[0].getAttribute("index"));
+          $(".file-path.path-"+index).val('');
+          event.stopPropagation();
+        })
+      });
+    </script>
+  </head>
+  <body>
+    <div id="loadingDiv"></div>
+    <div class="row container" id="uploadForm">
+      <div class="fixed-action-btn topright">
+        <a class="btn-floating btn-large teal" href="/">
+          <i class="large material-icons">home</i>
+        </a>
+      </div>
+      <h5 class="header">Provide your data</h5>
+      <div class="card-panel">
+        <form method="post" enctype="multipart/form-data" id="myForm" name="myForm">
+          {% csrf_token  %}
+          <table class="highlight">
+            <thead>
+              <tr>
+                <th>document name</th>
+                <th>file to upload</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr index="0">
+                <td>Loan Application Form</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-0" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="1">
+                <td>Form 4506-T : request for transcript of tax return</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-1" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="2">
+                <td>Personal financial statement</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-2" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="3">
+                <td>Projected income statement</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-3" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="4">
+                <td>Schedule of business debt	details of all business debts</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-4" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="5">
+                <td>Articles of incorporation</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-5" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+              <tr index="6">
+                <td>Partnership agreement</td>
+                <td class="file-field input-field">
+                  <div class="btn btn-small">
+                    <span>Browse</span>
+                    <input type="file" name="document" accept="application/pdf,.doc,.docx">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate path-6" type="text">
+                  </div>
+                </td>
+                <td>
+                  <i class="material-icons delete">clear</i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="row"></div>
+          <div class="row">
+            <div class="col s12 center">
+              <!-- <button class="btn waves-effect waves-light clear">Clear
+                <i class="material-icons right">clear</i>
+              </button> -->
+              <button class="btn waves-effect waves-light upload" type="submit" name="action">Upload
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>    
+  </body>
+</html>
